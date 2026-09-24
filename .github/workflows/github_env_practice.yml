@@ -1,0 +1,25 @@
+name: GITHUB_ENV Practice
+
+on:
+  push:
+
+jobs:
+  env-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Create variable
+        run: |
+          echo "TEST_ENV=staging" >> "$GITHUB_ENV"
+          echo "THREADS=50" >> "$GITHUB_ENV"
+
+      - name: Step 2 - Use variables
+        run: |
+          echo "TEST_ENV: $TEST_ENV"
+          echo "THREADS: $THREADS"
+
+      - name: Step 3 - Use variables again
+        run: |
+          echo "Running performance test"
+          echo "Environment: $TEST_ENV"
+          echo "Threads: $THREADS"
