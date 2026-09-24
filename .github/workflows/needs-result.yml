@@ -24,7 +24,7 @@ jobs:
 
   report:
     needs: test
-    if: ${{ needs.test.result == 'failure' }}
+    if: ${{ always() && needs.test.result == 'failure' }}
     runs-on: ubuntu-latest
 
     steps:
