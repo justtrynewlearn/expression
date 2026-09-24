@@ -1,0 +1,35 @@
+name: Job Output Practice
+
+on:
+  push:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+
+    outputs:
+      environment: ${{ steps.config.outputs.environment }}
+      threads: ${{ steps.config.outputs.threads }}
+
+    steps:
+      - name: Create configuration
+        id: config
+        run: |
+          echo "environment=staging" >> "$GITHUB_OUTPUT"
+          echo "threads=50" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: prepare
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show configuration
+        run: |
+          echo "Environment: ${{ needs.prepare.outputs.environment }}"
+          echo "Threads: ${{ needs.prepare.outputs.threads }}"
+
+      - name: Run performance test
+        run: |
+          echo "Running performance test"
+          echo "Environment: ${{ needs.prepare.outputs.environment }}"
+          echo "Threads: ${{ needs.prepare.outputs.threads }}"
