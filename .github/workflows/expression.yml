@@ -1,0 +1,38 @@
+name: Expression Practice
+
+on:
+  push:
+
+jobs:
+  context:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show GitHub context
+        run: |
+          echo "===== Repository ====="
+          echo "Repository: ${{ github.repository }}"
+          echo "Repository owner: ${{ github.repository_owner }}"
+
+          echo "===== Git reference ====="
+          echo "Ref: ${{ github.ref }}"
+          echo "Ref name: ${{ github.ref_name }}"
+          echo "SHA: ${{ github.sha }}"
+
+          echo "===== Event ====="
+          echo "Event name: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+
+          echo "===== Workflow ====="
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Job: ${{ github.job }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Run number: ${{ github.run_number }}"
+          echo "Run attempt: ${{ github.run_attempt }}"
+
+          echo "===== GitHub URLs ====="
+          echo "Server URL: ${{ github.server_url }}"
+          echo "API URL: ${{ github.api_url }}"
+
+          echo "===== Runner environment ====="
+          echo "Workspace: ${{ github.workspace }}"
