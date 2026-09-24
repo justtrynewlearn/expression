@@ -1,0 +1,22 @@
+name: Steps Output Practice
+
+on:
+  push:
+
+jobs:
+  output-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create version
+        id: version
+        run: |
+          echo "value=1.5.0" >> "$GITHUB_OUTPUT"
+
+      - name: Show version
+        run: |
+          echo "Version: ${{ steps.version.outputs.value }}"
+
+      - name: Use version
+        run: |
+          echo "Deploying version ${{ steps.version.outputs.value }}"
