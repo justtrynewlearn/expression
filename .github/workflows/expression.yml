@@ -4,35 +4,25 @@ on:
   push:
 
 jobs:
-  context:
+  conditions:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Show GitHub context
-        run: |
-          echo "===== Repository ====="
-          echo "Repository: ${{ github.repository }}"
-          echo "Repository owner: ${{ github.repository_owner }}"
+      - name: Always runs
+        run: echo "Step 1 - Always runs"
 
-          echo "===== Git reference ====="
-          echo "Ref: ${{ github.ref }}"
-          echo "Ref name: ${{ github.ref_name }}"
-          echo "SHA: ${{ github.sha }}"
+      - name: Check master branch
+        if: ${{ github.ref_name == 'master' }}
+        run: echo "Step 2 - We are on master"
 
-          echo "===== Event ====="
-          echo "Event name: ${{ github.event_name }}"
-          echo "Actor: ${{ github.actor }}"
+      - name: Check develop branch
+        if: ${{ github.ref_name == 'develop' }}
+        run: echo "Step 3 - We are on develop"
 
-          echo "===== Workflow ====="
-          echo "Workflow: ${{ github.workflow }}"
-          echo "Job: ${{ github.job }}"
-          echo "Run ID: ${{ github.run_id }}"
-          echo "Run number: ${{ github.run_number }}"
-          echo "Run attempt: ${{ github.run_attempt }}"
+      - name: Check push event
+        if: ${{ github.event_name == 'push' }}
+        run: echo "Step 4 - Workflow was triggered by push"
 
-          echo "===== GitHub URLs ====="
-          echo "Server URL: ${{ github.server_url }}"
-          echo "API URL: ${{ github.api_url }}"
-
-          echo "===== Runner environment ====="
-          echo "Workspace: ${{ github.workspace }}"
+      - name: Check pull request event
+        if: ${{ github.event_name == 'pull_request' }}
+        run: echo "Step 5 - Workflow was triggered by pull request"
