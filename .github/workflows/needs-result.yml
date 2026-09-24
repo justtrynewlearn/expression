@@ -1,0 +1,32 @@
+name: Needs Result Practice
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run test
+        run: |
+          echo "Running test..."
+          exit 1
+
+  check:
+    needs: test
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check test result
+        run: echo "Test result is ${{ needs.test.result }}"
+
+  report:
+    needs: test
+    if: ${{ needs.test.result == 'failure' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate failure report
+        run: echo "Generating report because test failed"
