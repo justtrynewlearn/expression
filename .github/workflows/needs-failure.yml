@@ -1,0 +1,23 @@
+name: Needs Failure Practice
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run test
+        run: |
+          echo "Running performance test..."
+          exit 1
+
+  report:
+    needs: test
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate failure report
+        run: echo "Generating report because test failed"
