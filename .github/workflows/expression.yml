@@ -8,21 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Always runs
-        run: echo "Step 1 - Always runs"
+      - name: Check master AND push
+        if: ${{ github.ref_name == 'master' && github.event_name == 'push' }}
+        run: echo "Step 6 - We are on master AND workflow was triggered by push"
 
-      - name: Check master branch
-        if: ${{ github.ref_name == 'master' }}
-        run: echo "Step 2 - We are on master"
+      - name: Check master OR develop
+        if: ${{ github.ref_name == 'master' || github.ref_name == 'develop' }}
+        run: echo "Step 7 - We are on master OR develop"
 
-      - name: Check develop branch
-        if: ${{ github.ref_name == 'develop' }}
-        run: echo "Step 3 - We are on develop"
-
-      - name: Check push event
-        if: ${{ github.event_name == 'push' }}
-        run: echo "Step 4 - Workflow was triggered by push"
-
-      - name: Check pull request event
-        if: ${{ github.event_name == 'pull_request' }}
-        run: echo "Step 5 - Workflow was triggered by pull request"
+      - name: Check develop AND push
+        if: ${{ github.ref_name == 'develop' && github.event_name == 'push' }}
+        run: echo "Step 8 - We are on develop AND workflow was triggered by push"
