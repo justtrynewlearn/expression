@@ -4,18 +4,32 @@ on:
   push:
 
 jobs:
-  conditions:
+  status-functions:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check master AND push
-        if: ${{ github.ref_name == 'master' && github.event_name == 'push' }}
-        run: echo "Step 6 - We are on master AND workflow was triggered by push"
+      - name: Step 1 - Success
+        run: echo "Step 1 - SUCCESS"
 
-      - name: Check master OR develop
-        if: ${{ github.ref_name == 'master' || github.ref_name == 'develop' }}
-        run: echo "Step 7 - We are on master OR develop"
+      - name: Step 2 - success()
+        if: ${{ success() }}
+        run: echo "Step 2 - success() is TRUE"
 
-      - name: Check develop AND push
-        if: ${{ github.ref_name == 'develop' && github.event_name == 'push' }}
-        run: echo "Step 8 - We are on develop AND workflow was triggered by push"
+      - name: Step 3 - Failure
+        run: exit 1
+
+      - name: Step 4 - success()
+        if: ${{ success() }}
+        run: echo "Step 4 - success() is TRUE"
+
+      - name: Step 5 - failure()
+        if: ${{ failure() }}
+        run: echo "Step 5 - failure() is TRUE"
+
+      - name: Step 6 - always()
+        if: ${{ always() }}
+        run: echo "Step 6 - always() is TRUE"
+
+      - name: Step 7 - cancelled()
+        if: ${{ cancelled() }}
+        run: echo "Step 7 - cancelled() is TRUE"
