@@ -8,42 +8,61 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. contains()
+      # =========================
+      # STRING FUNCTIONS
+      # =========================
+
       - name: Check contains()
         if: ${{ contains(github.ref_name, 'release') }}
         run: echo "Branch contains 'release'"
 
-      # 2. startsWith()
       - name: Check startsWith()
         if: ${{ startsWith(github.ref_name, 'release/') }}
         run: echo "Branch starts with 'release/'"
 
-      # 3. endsWith()
       - name: Check endsWith()
         if: ${{ endsWith(github.ref_name, '-performance') }}
         run: echo "Branch ends with '-performance'"
 
-      # 4. contains() + startsWith()
       - name: Release branch
         if: ${{ contains(github.ref_name, 'release') && startsWith(github.ref_name, 'release/') }}
         run: echo "This is a release branch"
 
-      # 5. startsWith() + endsWith()
       - name: Release performance branch
         if: ${{ startsWith(github.ref_name, 'release/') && endsWith(github.ref_name, '-performance') }}
         run: echo "This is a release performance branch"
 
-      # 6. startsWith() + OR
       - name: Master or release
         if: ${{ github.ref_name == 'master' || startsWith(github.ref_name, 'release/') }}
         run: echo "This is master or release branch"
 
-      # 7. format()
+      # =========================
+      # format()
+      # =========================
+
       - name: Test format()
         run: |
           echo "${{ format('Branch: {0}', github.ref_name) }}"
 
-      # 8. Multiple values with format()
       - name: Test format() with multiple values
         run: |
           echo "${{ format('Repository: {0}, Branch: {1}', github.repository, github.ref_name) }}"
+
+      # =========================
+      # toJSON()
+      # =========================
+
+      - name: Test toJSON()
+        run: |
+          echo '${{ toJSON(github.event) }}'
+
+      # =========================
+      # fromJSON()
+      # =========================
+
+      - name: Test fromJSON()
+        env:
+          THREADS: "50"
+        run: |
+          echo "THREADS as string: $THREADS"
+          echo "THREADS as number: ${{ fromJSON(env.THREADS) }}"
